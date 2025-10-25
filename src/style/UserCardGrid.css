@@ -1,0 +1,43 @@
+.user-card {
+  transition: background-color 0.3s ease;
+}
+
+.user-card:hover {
+  background-color: #b0a8a8;
+}
+
+/* Hide icons initially */
+.card-actions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  display: flex;
+  gap: 24px; 
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+/* Show icons on hover */
+.user-card:hover .card-actions {
+  opacity: 1;
+}
+
+.edit-icon {
+  font-size: 30px;
+  color: #ffffff;
+  background-color: #4096ff;
+  border-radius: 50%;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.delete-icon {
+  font-size: 30px; 
+  color: #ffffff;
+  background-color: #ff4d4f;
+  border-radius: 50%;
+  padding: 16px;
+  cursor: pointer;
+}
