@@ -1,8 +1,8 @@
-/* user page search input css */
+/* user page search css */
 .no-radius .ant-input {
-  border-radius: 0 !important;
+  border-radius: 3px 0 0 3px !important;
 }
 .no-radius .ant-input-suffix,
 .no-radius .ant-input-search-button {
-  border-radius: 0 !important;
+  border-radius: 0 3px 3px 0 !important;
 }

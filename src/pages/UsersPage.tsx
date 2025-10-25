@@ -8,6 +8,7 @@ import {
   message,
   Pagination,
   Space,
+  Grid,
 } from "antd";
 import { UnorderedListOutlined, AppstoreOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +23,7 @@ import UserTable from "../components/UserTable";
 import UserCardGrid from "../components/UserCardGrid";
 import UserModal from "../components/UserModal";
 
-// --------------------------------------------------------------------
+const { useBreakpoint } = Grid;
 
 export default function UsersPage() {
   const dispatch: any = useDispatch();
@@ -34,6 +35,8 @@ export default function UsersPage() {
   const pageSize = 6;
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<User | null>(null);
+
+  const screens = useBreakpoint(); // responsive breakpoints
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -83,7 +86,6 @@ export default function UsersPage() {
     try {
       await dispatch(deleteUser(id));
       message.success("Deleted");
-      // if last item on page removed, go to previous page when necessary
       if ((page - 1) * pageSize >= filtered.length - 1 && page > 1)
         setPage(page - 1);
     } catch {
@@ -93,18 +95,30 @@ export default function UsersPage() {
 
   return (
     <>
-      <div style={{ backgroundColor: "white" }}>
+      <div style={{ backgroundColor: "white", padding: screens.xs ? 12 : 20 }}>
         <Row
           justify="space-between"
-          style={{ marginBottom: 12, padding: 20 }}
+          gutter={[16, 16]}
           align="middle"
+          style={{ marginBottom: 12 }}
         >
-          <Col>
-            <div style={{ fontWeight: 600, fontSize: 24 }}>Users</div>
+          <Col xs={24} sm={12} md={12} lg={8}>
+            <div style={{ fontWeight: 600, fontSize: screens.xs ? 20 : 24 }}>
+              Users
+            </div>
           </Col>
 
-          <Col>
-            <Space direction="horizontal" size={20}>
+          <Col
+            xs={24}
+            sm={12}
+            md={12}
+            lg={16}
+            style={{ textAlign: screens.xs ? "left" : "right" }}
+          >
+            <Space
+              direction={screens.xs ? "vertical" : "horizontal"}
+              size={screens.xs ? 12 : 20}
+            >
               <Input.Search
                 placeholder="input search text"
                 onSearch={(v) => setQuery(v)}
@@ -112,46 +126,54 @@ export default function UsersPage() {
                   setQuery(e.target.value);
                   setPage(1);
                 }}
-                style={{
-                  width: 260,
-                  borderRadius: 0,
-                  outline: "none",
-                }}
+                style={{ width: screens.xs ? "100%" : 200 }}
                 className="no-radius"
               />
               <Button
-                style={{
-                  borderRadius: 0,
-                }}
                 type="primary"
+                style={{
+                  borderRadius: 3,
+                }}
                 onClick={openCreate}
+                block={screens.xs}
               >
                 Create User
               </Button>
             </Space>
           </Col>
         </Row>
-        <Row
-          justify="start"
-          style={{ marginBottom: 12, paddingLeft: 24 }}
-          align="middle"
-        >
-          <Button
-            type={isCardView ? "default" : "primary"}
-            icon={<UnorderedListOutlined />}
-            onClick={() => setIsCardView(false)}
-            style={{ borderRadius: 0 }}
-          >
-            Table
-          </Button>
-          <Button
-            type={isCardView ? "primary" : "default"}
-            icon={<AppstoreOutlined />}
-            onClick={() => setIsCardView(true)}
-            style={{ borderRadius: 0 }}
-          >
-            Card
-          </Button>
+
+        <Row justify="start" align="middle" style={{ marginBottom: 12 }}>
+          <Col>
+            <Button
+              type={isCardView ? "default" : "primary"}
+              icon={<UnorderedListOutlined />}
+              onClick={() => setIsCardView(false)}
+              style={{
+                borderBottomLeftRadius: 3,
+                borderTopLeftRadius: 3,
+                borderBottomRightRadius: 0,
+                borderTopRightRadius: 0,
+              }}
+            >
+              Table
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              type={isCardView ? "primary" : "default"}
+              icon={<AppstoreOutlined />}
+              onClick={() => setIsCardView(true)}
+              style={{
+                borderBottomLeftRadius: 0,
+                borderTopLeftRadius: 0,
+                borderBottomRightRadius: 3,
+                borderTopRightRadius: 3,
+              }}
+            >
+              Card
+            </Button>
+          </Col>
         </Row>
 
         {loading ? (
@@ -185,11 +207,13 @@ export default function UsersPage() {
           onSubmit={editing ? handleUpdate : handleCreate}
         />
       </div>
+
       <div
         style={{
           display: "flex",
           justifyContent: "flex-end",
           marginTop: 20,
+          paddingRight: screens.xs ? 12 : 0,
         }}
       >
         <Pagination

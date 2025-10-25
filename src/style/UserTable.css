@@ -6,15 +6,15 @@
 .ant-pagination-jump-next {
   background-color: white !important;
   color: black !important;
-  border-radius: 0 !important;
-  border: 1px solid #d9d9d9 !important; 
+  border-radius: 3px !important;
+  border: 1px solid #d9d9d9 !important;
 }
 
 /* Active page button */
 .ant-pagination-item-active {
   background-color: rgb(255, 255, 255) !important;
   color: white !important;
-  border-radius: 0 !important;
+  border-radius: 3px !important;
   border-color: rgb(113, 113, 247) !important;
 }
 
